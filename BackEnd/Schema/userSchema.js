@@ -12,3 +12,5 @@ const userModel=mongoose.model("user",userSchema)
 module.exports={
   userModel
 }
+
+
