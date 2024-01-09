@@ -5,11 +5,12 @@ const Port=8080
 const app=express();
 const cors=require("cors");
 const { taskRouter } = require("./Router/taskrouter");
+const { files } = require("./Router/uploadRouter");
 app.use(cors())
 app.use(express.json())
 app.use("/users",userRouter)
 app.use("/task",taskRouter);
-
+app.use("/upload",files)
 
 app.listen(Port,async()=>{
 try {

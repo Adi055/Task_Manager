@@ -16,7 +16,7 @@ try {
 })
 
 
-taskRouter.post("/add",Auth,async(req,res)=>{
+taskRouter.post("/add",async(req,res)=>{
   try {
     const PostTask= new taskModel(req.body);
     await PostTask.save();

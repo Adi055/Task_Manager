@@ -4,7 +4,8 @@ const Auth=(req,res,next)=>{
   if(token){
     const decoded=jwt.verify(token,"task")
     if(decoded){
-      req.body.userID=decoded.user
+      req.body.userID=decoded.userID;
+      req.body.user=decoded.user
       next()
     }
     else{
