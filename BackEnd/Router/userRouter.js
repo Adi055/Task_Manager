@@ -11,7 +11,7 @@ userRouter.post("/register",async(req,res)=>{
    
   const specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
   
-  if (!uppercaseRegex.test(password) || !specialCharRegex.test(password) || password.length >= 6) {
+  if (!uppercaseRegex.test(password) || !specialCharRegex.test(password) || password.length <= 6) {
       return res.status(400).send({ error: 'password is invalid' });
   }
 try {

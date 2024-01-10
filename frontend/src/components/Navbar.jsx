@@ -9,13 +9,28 @@ import {
   useBreakpointValue,
   Heading,Spacer
 } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 
 import { FiMenu } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 let Navbar=()=>{
 
  const isDesktop = useBreakpointValue({ base: false, lg: true })
+ const [forceUpdate, setForceUpdate] = useState(false);
+  const navigate=useNavigate()
+
+ const Logout=()=>{
+  localStorage.clear();
+  setForceUpdate(prevForceUpdate => !prevForceUpdate);
+  console.log("1");
+  navigate("/login")
+ }
+
+ useEffect(() => {
+  // Your logic to run after each re-render
+  console.log('Component re-rendered');
+}, [forceUpdate]);
 
 
   return (
@@ -25,21 +40,39 @@ let Navbar=()=>{
           <HStack spacing="1" justify="space-between">
         
             {isDesktop ? (
-                          <Flex minWidth='max-content' alignItems='center' gap='350'>
+                          <Flex minWidth='max-content' alignItems='center' gap='270'>
                           <Box p='2'>
                             <Heading size='md'>Task Manager App</Heading>
                           </Box>
                           <Spacer />
-                          <ButtonGroup gap='1'>
+                          <ButtonGroup gap='15'>
                            
                               <Box >
-                                <Link to="/signup">  
-                                  <Button colorScheme='teal' mr="6">Sign Up</Button>
+                               
+                                <Link to="/addtasks">
+                                <Button colorScheme='teal' mr="8">Add Tasks</Button>
                                 </Link>
-                                <Link to="/login"> 
-                                  <Button colorScheme='teal'>Log in</Button>
-                                </Link> 
-                              </Box>
+                                <Link to="/yourtasks" >
+                                <Button colorScheme='teal' mr="8">Your Tasks</Button>
+                                </Link>
+                                </Box>
+                                {
+                                  localStorage.length>1?(
+                                    <Button colorScheme='teal' mr="8" onClick={Logout}>Logout</Button>
+                                  )
+                                  :(
+                                    <Box>
+                                    <Link to="/">  
+                                    <Button colorScheme='teal' mr="8">Sign Up</Button>
+                                  </Link>
+                                  <Link to="/login"> 
+                                    <Button colorScheme='teal' mr="8">Log in</Button>
+                                  </Link> 
+                                  </Box>
+                                  )
+                                }
+                               
+                             
                             
                           </ButtonGroup>
                         </Flex>

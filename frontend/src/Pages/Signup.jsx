@@ -1,4 +1,4 @@
-import {FormControl,Heading,Input,Button,FormHelperText} from '@chakra-ui/react'
+import {FormControl,Heading,Input,Button,FormHelperText, Card, CardBody} from '@chakra-ui/react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ const Signup=()=>{
     const handleSignup = (e) => {
         e.preventDefault();
         const user = {  email, password,firstname, lastname};
-        fetch("http://localhost:8080/users/register", {
+        fetch("https://taskbackend-1nvb.onrender.com/users/register", {
           method: "POST" ,
           headers: {
             "Content-Type": "application/json",
@@ -41,6 +41,7 @@ const Signup=()=>{
           }
           else{
             navigate("/login")
+            alert("you are registered")
           }
             
           })
@@ -57,7 +58,10 @@ const Signup=()=>{
     return (
         <div>
           
-           <Heading as='h1' size='1xl' >
+          
+            <Card mx="auto" w="400px">
+              <CardBody>
+              <Heading as='h1' size='1xl' >
             Register Yourself
             </Heading>
             <div>
@@ -78,7 +82,7 @@ const Signup=()=>{
             
             <br />
             <Input type='text'  w={300} placeholder='last name' mt={5}
-            name="lasttname"
+            name="lastname"
             value={lastname}
             onChange={(e) => setLastname(e.target.value)}
             isRequired
@@ -104,6 +108,8 @@ const Signup=()=>{
             colorScheme='teal'>Submit</Button>
             </FormControl>
             </form>
+            </CardBody>
+            </Card>
         </div>
     )
 }

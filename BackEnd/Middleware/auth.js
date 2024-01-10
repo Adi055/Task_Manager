@@ -1,11 +1,11 @@
 const jwt=require("jsonwebtoken");
 const Auth=(req,res,next)=>{
-  const token=req.headers.authorization;
+  const token = req.headers.authorization?.split(" ")[1];
   if(token){
     const decoded=jwt.verify(token,"task")
     if(decoded){
-      req.body.userID=decoded.userID;
-      req.body.user=decoded.user
+       req.body.userID=decoded.user;
+      // req.body.user=decoded.user
       next()
     }
     else{

@@ -1,7 +1,8 @@
-import {FormControl,Heading,Input,Button,
+import {FormControl,Heading,Input,Button, Card, CardBody,
   } from '@chakra-ui/react'
 import { useState } from 'react';
 import {useDispatch} from "react-redux"
+import { useNavigate } from 'react-router-dom';
 
 
 import { LoginSuccess } from '../Redux/Action';
@@ -10,7 +11,8 @@ const Login=()=>{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err,setErr]=useState(false)
-  
+  const navigate=useNavigate()
+
 
   let dispatch=useDispatch()
   
@@ -18,7 +20,7 @@ const Login=()=>{
   const handleLogin = (e) => {
       e.preventDefault();
       const user = { email, password };
-      fetch("http://localhost:8080/users/login", {
+      fetch("https://taskbackend-1nvb.onrender.com/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +43,8 @@ const Login=()=>{
           }
           else{
             localStorage.setItem("token", JSON.stringify(res.token));
-            
+            navigate("/addtasks")
+           
           }
           
           console.log(res.token);
@@ -51,13 +54,15 @@ const Login=()=>{
         .catch((err) => console.log(err));
       setEmail("")
       setPassword("")
+     
     };
 
 
 
   return (
       <div>
-        
+        <Card w="400px" mx="auto" mt="45">
+          <CardBody>
           <Heading as='h1' size='1xl' noOfLines={1}>
               Login Yourself
           </Heading>
@@ -85,7 +90,8 @@ const Login=()=>{
           colorScheme='teal'>Submit</Button>
           </FormControl>
           </form>
-          
+          </CardBody>
+          </Card>
     
       </div>
   )

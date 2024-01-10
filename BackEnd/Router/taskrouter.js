@@ -28,7 +28,7 @@ taskRouter.post("/add",async(req,res)=>{
   })
   
 
-  taskRouter.patch("/update/:id",Auth,async(req,res)=>{
+  taskRouter.patch("/update/:id",async(req,res)=>{
     const {id}=req.params;
     const task = await taskModel.findOne({_id:id})
     try {
@@ -46,7 +46,7 @@ taskRouter.post("/add",async(req,res)=>{
     
     })
     
-    taskRouter.delete("/delete/:id",Auth,async(req,res)=>{
+    taskRouter.delete("/delete/:id",async(req,res)=>{
       const {id}=req.params;
       const task = await taskModel.findOne({_id:id})
       try {
