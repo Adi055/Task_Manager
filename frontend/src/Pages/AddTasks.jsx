@@ -14,52 +14,94 @@ const AddTasks = () => {
 
   // Get today's date in the required format (YYYY-MM-DD)
   const todayDate = new Date().toISOString().split('T')[0];
-
+  let token=JSON.parse(localStorage.getItem("token"))
   let dispatch = useDispatch();
+
+  // const PostData = (e) => {
+  //   e.preventDefault();
+
+  //   const val = { taskname, start_date, end_date, description };
+  //   console.log("Sending data:", val);
+  //   axios
+  //     .post("http://localhost:8080/task/add", val,{
+  //       headers:{
+  //         "Authorization":`Bearer ${token}`
+  //       }
+  //     })
+  //     .then((res) => {
+  //       dispatch(PostTask());
+  //       alert("Your task has been saved");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+
+  //   setTaskname("");
+  //   setDescription("");
+  //   setStart("");
+  //   setEnd("");
+  // };
+
 
   const PostData = (e) => {
     e.preventDefault();
-
-    const val = { taskname, start_date, end_date, description };
-    console.log("Sending data:", val);
+  
+    // Create FormData to include both text and file data
+    const formData = new FormData();
+    formData.append('taskname', taskname);
+    formData.append('start_date', start_date);
+    formData.append('end_date', end_date);
+    formData.append('description', description);
+    formData.append('file', file); // Append the file
+  
+    console.log("Sending data:", formData);
+  
     axios
-      .post("https://taskbackend-1nvb.onrender.com/task/add", val)
+      .post("https://taskbackend-1nvb.onrender.com/task/add", formData, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "multipart/form-data", // Set content type for file upload
+        },
+      })
       .then((res) => {
         dispatch(PostTask());
-        alert("Your task has been saved");
+        alert("Your task and file have been saved");
       })
       .catch((err) => {
         console.log(err);
       });
-
+  
+    // Reset form fields
     setTaskname("");
     setDescription("");
     setStart("");
     setEnd("");
+    setFile(null);
   };
+  
 
   // upload file function
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
 
-  const handleUpload = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
+  // const handleUpload = async () => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append('file', file);
 
-      await axios.post('https://taskbackend-1nvb.onrender.com/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+  //     await axios.post('https://taskbackend-1nvb.onrender.com/upload', formData, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
 
-      alert('File uploaded successfully!');
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      alert('Error uploading file');
-    }
-  };
+  //     alert('File uploaded successfully!');
+  //   } catch (error) {
+  //     console.error('Error uploading file:', error);
+  //     alert('Error uploading file');
+  //   }
+  // };
 
   return (
     <div>
@@ -76,6 +118,8 @@ const AddTasks = () => {
               <Input type="date" placeholder="end date" name="end_date" value={end_date} onChange={(e) => setEnd(e.target.value)} min={todayDate} isRequired />
             </Grid>
             <br />
+            <Input type="file" onChange={handleFileChange} w="70" />
+            <br />
             <br />
             <Button type="submit" colorScheme="green">
               Submit
@@ -85,7 +129,7 @@ const AddTasks = () => {
       </Card>
 
       <br />
-      <Heading as="h2" size="1xl" mt="10">
+      {/* <Heading as="h2" size="1xl" mt="10">
         Upload your files here
       </Heading>
       <Card>
@@ -96,7 +140,7 @@ const AddTasks = () => {
             Upload
           </Button>
         </CardBody>
-      </Card>
+      </Card> */}
     </div>
   );
 };

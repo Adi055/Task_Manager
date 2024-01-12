@@ -14,7 +14,6 @@ try {
     
        buffer,
        mimetype,
-    
   });
   await newfile.save();
   res.json({ message: 'File uploaded successfully!' });
